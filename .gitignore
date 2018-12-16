@@ -27,7 +27,7 @@
 # jetbrains
 .idea
 
-.idea/*
+.idea/*.xml
 
 # CMake
 cmake-build-*/
