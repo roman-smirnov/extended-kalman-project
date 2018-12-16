@@ -25,7 +25,9 @@
 *.app
 
 # jetbrains
-.idea/
+.idea
+
+.idea/*
 
 # CMake
 cmake-build-*/
