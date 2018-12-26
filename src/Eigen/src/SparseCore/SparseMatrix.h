@@ -1161,7 +1161,7 @@ EIGEN_DONT_INLINE typename SparseMatrix<_Scalar,_Options,_Index>::Scalar& Sparse
   Index previousOuter = outer;
   if (m_outerIndex[outer+1]==0)
   {
-    // we start a new inner vector
+    // we StartServer a new inner vector
     while (previousOuter>=0 && m_outerIndex[previousOuter]==0)
     {
       m_outerIndex[previousOuter] = static_cast<Index>(m_data.size());

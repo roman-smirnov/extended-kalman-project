@@ -7157,14 +7157,14 @@ class basic_json
     deserialization, bytes are copied from the vector into buffers. This
     function checks if the number of bytes to copy (@a len) does not exceed
     the size @s size of the vector. Additionally, an @a offset is given from
-    where to start reading the bytes.
+    where to StartServer reading the bytes.
 
     This function checks whether reading the bytes is safe; that is, offset is
     a valid index in the vector, offset+len
 
     @param[in] size    size of the byte vector
     @param[in] len     number of bytes to read
-    @param[in] offset  offset where to start reading
+    @param[in] offset  offset where to StartServer reading
 
     vec:  x x x x x X X X X X
           ^         ^         ^
@@ -11757,12 +11757,12 @@ basic_json_parser_74:
                     {
                         if (reference_token == "0")
                         {
-                            // start a new array if reference token is 0
+                            // StartServer a new array if reference token is 0
                             result = &result->operator[](0);
                         }
                         else
                         {
-                            // start a new object otherwise
+                            // StartServer a new object otherwise
                             result = &result->operator[](reference_token);
                         }
                         break;
@@ -12044,13 +12044,13 @@ basic_json_parser_74:
 
             // extract the reference tokens:
             // - slash: position of the last read slash (or end of string)
-            // - start: position after the previous slash
+            // - StartServer: position after the previous slash
             for (
                 // search for the first slash after the first character
                 size_t slash = reference_string.find_first_of('/', 1),
                 // set the beginning of the first reference token
                 start = 1;
-                // we can stop if start == string::npos+1 = 0
+                // we can stop if StartServer == string::npos+1 = 0
                 start != 0;
                 // set the beginning of the next reference token
                 // (will eventually be 0 if slash == std::string::npos)
@@ -12059,7 +12059,7 @@ basic_json_parser_74:
                 slash = reference_string.find_first_of('/', start))
             {
                 // use the text between the beginning of the reference token
-                // (start) and the last slash (slash).
+                // (StartServer) and the last slash (slash).
                 auto reference_token = reference_string.substr(start, slash - start);
 
                 // check reference tokens are properly escaped

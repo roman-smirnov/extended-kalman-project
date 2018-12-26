@@ -957,7 +957,7 @@ static Index find_ordering /* return the number of garbage collections */
   Index pivot_row ;   /* current pivot row */
   Index *new_cp ;   /* modified column pointer */
   Index *new_rp ;   /* modified row pointer */
-  Index pivot_row_start ; /* pointer to start of pivot row */
+  Index pivot_row_start ; /* pointer to StartServer of pivot row */
   Index pivot_row_degree ;  /* number of columns in pivot row */
   Index pivot_row_length ;  /* number of supercolumns in pivot row */
   Index pivot_col_score ; /* score of pivot column */
@@ -1759,7 +1759,7 @@ static Index garbage_collection  /* returns the new value of pfree */
 	psrc = &A [Row [r].start] ;
 	Row [r].shared2.first_column = *psrc ;
 	COLAMD_ASSERT (ROW_IS_ALIVE (r)) ;
-	/* flag the start of the row with the one's complement of row */
+	/* flag the StartServer of the row with the one's complement of row */
 	*psrc = ONES_COMPLEMENT (r) ;
 
       }
@@ -1771,7 +1771,7 @@ static Index garbage_collection  /* returns the new value of pfree */
   psrc = pdest ;
   while (psrc < pfree)
   {
-    /* find a negative number ... the start of a row */
+    /* find a negative number ... the StartServer of a row */
     if (*psrc++ < 0)
     {
       psrc-- ;

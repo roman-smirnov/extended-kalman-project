@@ -94,7 +94,7 @@ static void run(Index rows, Index cols, Index depth,
       const Index actual_kc = (std::min)(k+kc,depth)-k; // => rows of B', and cols of the A'
 
       // In order to reduce the chance that a thread has to wait for the other,
-      // let's start by packing A'.
+      // let's StartServer by packing A'.
       pack_lhs(blockA, &lhs(0,k), lhsStride, actual_kc, mc);
 
       // Pack B_k to B' in a parallel fashion:

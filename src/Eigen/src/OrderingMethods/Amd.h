@@ -74,7 +74,7 @@ Index cs_tdfs(Index j, Index k, Index *head, const Index *next, Index *post, Ind
     else
     {
       head[p] = next[i];   /* remove i from children of p */
-      stack[++top] = i;     /* start dfs on child node i */
+      stack[++top] = i;     /* StartServer dfs on child node i */
     }
   }
   return k;

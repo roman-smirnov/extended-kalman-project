@@ -6,7 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 
-set(SOURCES src/main.cpp src/tools.cpp src/FusionEKF.cpp src/kalman_filter.cpp src/tools.h src/FusionEKF.h src/kalman_filter.h)
+set(SOURCES src/main.cpp src/kalman/tools.cpp src/kalman/FusionEKF.cpp src/kalman/kalman_filter.cpp
+        src/controller.cpp  src/kalman/tools.h src/kalman/FusionEKF.h src/kalman/kalman_filter.h
+        src/controller.h src/network.cpp src/network.h )
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     include_directories(/usr/local/include)

@@ -140,7 +140,7 @@ Index SparseLUImpl<Scalar,Index>::column_bmod(const Index jcol, const Index nseg
   glu.xlusup(jcol + 1) = nextlu;  // close L\U(*,jcol); 
   
   /* For more updates within the panel (also within the current supernode),
-   * should start from the first column of the panel, or the first column
+   * should StartServer from the first column of the panel, or the first column
    * of the supernode, whichever is bigger. There are two cases:
    *  1) fsupc < fpanelc, then fst_col <-- fpanelc
    *  2) fsupc >= fpanelc, then fst_col <-- fsupc

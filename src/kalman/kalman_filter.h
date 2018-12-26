@@ -1,7 +1,7 @@
 #ifndef KALMAN_FILTER_H_
 #define KALMAN_FILTER_H_
 
-#include "Eigen/Dense"
+#include "../Eigen/Dense"
 
 class KalmanFilter {
  public:
@@ -55,14 +55,21 @@ class KalmanFilter {
   // state transition matrix
   Eigen::MatrixXd F_;
 
-  // process covariance matrix
-  Eigen::MatrixXd Q_;
-
   // measurement matrix
   Eigen::MatrixXd H_;
 
   // measurement covariance matrix
   Eigen::MatrixXd R_;
+
+  // process covariance matrix
+  Eigen::MatrixXd Q_;
+
+  // identity matrix
+  Eigen::MatrixXd I_;
+
+  static constexpr double PI = 3.14159265358979323846;
+  static constexpr double TWO_PI = PI*2;
+
 };
 
 #endif // KALMAN_FILTER_H_

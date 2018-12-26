@@ -53,7 +53,7 @@ EIGEN_DONT_INLINE void LU_kernel_bmod<SegSizeAtCompileTime>::run(const int segsi
     tempv(i) = dense(irow); 
     ++isub; 
   }
-  // Dense triangular solve -- start effective triangle
+  // Dense triangular solve -- StartServer effective triangle
   luptr += lda * no_zeros + no_zeros; 
   // Form Eigen matrix and vector 
   Map<Matrix<Scalar,SegSizeAtCompileTime,SegSizeAtCompileTime, ColMajor>, 0, OuterStride<> > A( &(lusup.data()[luptr]), segsize, segsize, OuterStride<>(lda) );

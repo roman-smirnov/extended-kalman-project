@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include "Eigen/Dense"
+#include "../Eigen/Dense"
 #include "kalman_filter.h"
 #include "measurement_package.h"
 #include "tools.h"
@@ -38,12 +38,19 @@ class FusionEKF {
   // previous timestamp
   long long previous_timestamp_;
 
-  // tool object used to compute Jacobian and RMSE
+  // tool object used to comp_ute Jacobian and RMSE
   Tools tools;
   Eigen::MatrixXd R_laser_;
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;
-  Eigen::MatrixXd Hj_;
+  Eigen::MatrixXd H_radar_;
+
+  // acceleration noise
+  double acceleration_noise_;
+
+  void InitStateOnFirstMeasurement(const MeasurementPackage &measurement_pack);
+  void ComputeProcessCovMatrix(const MeasurementPackage &measurement_pack);
+  void UpdateFusionKalmanFilter(const MeasurementPackage &measurement_pack);
 };
 
 #endif // FusionEKF_H_
