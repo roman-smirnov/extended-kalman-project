@@ -1,31 +1,35 @@
 #  Extended Kalman Filter Project
 
+
+
 ## TODO
 
 1. ~~compact and optimize~~
-2. check why not working 
-3. break down controller 
-4. third party dir
-5. precompiled
-6. system model
-7. measurement model
-8. pimpl
-9. go over https://github.com/mherb/kalman
-10. polymorphism and inheritance
-11. rename matrices and vectors to meaningful names
-12. code documentation
-13. write a project outline with overview of implementation steps
-14. joseph form vs optimal kalman (standard form) ?
-15. write project dir tree +  description of each
-16. write expected input, output format and examples
-17. write out relevant rubric metrics checklist
-18. ~~Create reusable websocket module~~
-19. make exploration, demo pipeline, viz notebook
-20. results analysis
-21. figure out interactive plots
-22. make viz gifs
-23. record intro video
-24. put back install scripts and license
+2. ~~check why not working~~
+3. ~~break down controller~~ 
+4. ~~third party dir~~
+5. impl listener pattern for network/controller interaction
+6. precompiled
+7. system model
+8. measurement models - separate laser and radar measurement models
+9. pimpl
+10. go over https://github.com/mherb/kalman
+11. polymorphism and inheritance
+12. rename matrices and vectors to meaningful names
+13. code documentation
+14. write a project outline with overview of implementation steps
+15. joseph form vs optimal kalman (standard form) ?
+16. write project dir tree +  description of each
+17. write expected input, output format and examples
+18. write out relevant rubric metrics checklist
+19. ~~Create reusable websocket module~~
+20. make documentation, exploration, demo pipeline, viz notebook
+21. results analysis
+22. figure out interactive plots
+23. make viz gifs
+24. record intro video
+25. put back install scripts and license
+26. code review stack exchange
 
 
 
@@ -168,7 +172,6 @@ R	1.014892e+00	5.543292e-01	4.892807e+00	1477010443050000	8.599968e-01	6.000449e
 * https://github.com/mherb/kalman
 * https://github.com/ndrplz/self-driving-car
 * https://github.com/JunshengFu/tracking-with-Extended-Kalman-Filter
-* https://github.com/jeremyfix/easykf
 * https://github.com/mithi/fusion-ekf
 * https://github.com/ethz-asl/ethzasl_msf
 * https://github.com/NikolasEnt/Extended-Kalman-Filter

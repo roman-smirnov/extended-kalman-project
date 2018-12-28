@@ -38,7 +38,7 @@ void Controller::HandleSimulatorMessage(char *data, size_t length) {
   }
 
   auto msg_str = has_data(data);
-  
+
   if (msg_str.empty()) {
     string msg = "42[\"manual\",{}]"; // Manual driving
     network->SendMessageToSimulator(msg);
@@ -47,7 +47,6 @@ void Controller::HandleSimulatorMessage(char *data, size_t length) {
 
   auto j = nlohmann::json::parse(msg_str);
   auto event = j[0].get<string>();
-
   if (event != "telemetry") {
     return;
   }
@@ -55,16 +54,60 @@ void Controller::HandleSimulatorMessage(char *data, size_t length) {
   // j[1] is the data JSON object
   string sensor_measurement = j[1]["sensor_measurement"];
 
-  MeasurementPackage meas_package;
+  update_meas_pkg(sensor_measurement);
+
+  add_ground_truth();
+
+  // Call ProcessMeasurement(meas_package) for Kalman filter
+  fusionEKF.ProcessMeasurement(meas_package);
+
+  // Push the current estimated x,y positon from the Kalman filter's state vector
+  add_estimate();
+
+  VectorXd rmse = tools.CalculateRMSE(estimations, ground_truth);
+
+  std::string msg = GetOutputMessageString(rmse);
+
+  network->SendMessageToSimulator(msg);
+}
+
+
+std::string Controller::GetOutputMessageString(const Eigen::VectorXd rmse){
+  nlohmann::json msgJson;
+  msgJson["estimate_x"] = fusionEKF.ekf_.x_(0);
+  msgJson["estimate_y"] = fusionEKF.ekf_.x_(1);
+  msgJson["rmse_x"] = rmse(0);
+  msgJson["rmse_y"] = rmse(1);
+  msgJson["rmse_vx"] = rmse(2);
+  msgJson["rmse_vy"] = rmse(3);
+  auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
+  return msg;
+}
+
+void Controller::add_estimate(){
+  VectorXd estimate(4);
+  estimate(0) = fusionEKF.ekf_.x_(0);
+  estimate(1) = fusionEKF.ekf_.x_(1);
+  estimate(2) = fusionEKF.ekf_.x_(2);
+  estimate(3) = fusionEKF.ekf_.x_(3);
+  estimations.push_back(estimate);
+}
+
+void Controller::add_ground_truth(){
+  VectorXd gt_values(4);
+  gt_values(0) = meas_package.x_ground_truth_;
+  gt_values(1) = meas_package.y_ground_truth_;
+  gt_values(2) = meas_package.vx_ground_truth_;
+  gt_values(3) = meas_package.vy_ground_truth_;
+  ground_truth.push_back(gt_values);
+}
+
+void Controller::update_meas_pkg(const string &sensor_measurement){
   std::istringstream iss(sensor_measurement);
-
-  long long timestamp;
-
   // reads first element from the current line
   string sensor_type;
   iss >> sensor_type;
-
-  if (sensor_type.compare("L") == 0) {
+  if (sensor_type == "L") {
     meas_package.sensor_type_ = MeasurementPackage::LASER;
     meas_package.raw_measurements_ = VectorXd(2);
     float px;
@@ -72,9 +115,7 @@ void Controller::HandleSimulatorMessage(char *data, size_t length) {
     iss >> px;
     iss >> py;
     meas_package.raw_measurements_ << px, py;
-    iss >> timestamp;
-    meas_package.timestamp_ = timestamp;
-  } else if (sensor_type.compare("R") == 0) {
+  } else if (sensor_type == "R") {
     meas_package.sensor_type_ = MeasurementPackage::RADAR;
     meas_package.raw_measurements_ = VectorXd(3);
     float ro;
@@ -84,66 +125,12 @@ void Controller::HandleSimulatorMessage(char *data, size_t length) {
     iss >> theta;
     iss >> ro_dot;
     meas_package.raw_measurements_ << ro, theta, ro_dot;
-    iss >> timestamp;
-    meas_package.timestamp_ = timestamp;
   }
-
-  float x_gt;
-  float y_gt;
-  float vx_gt;
-  float vy_gt;
-  iss >> x_gt;
-  iss >> y_gt;
-  iss >> vx_gt;
-  iss >> vy_gt;
-
-  // Create a Kalman Filter instance
-  FusionEKF fusionEKF;
-
-  // used to compute the RMSE later
-  Tools tools;
-  vector<VectorXd> estimations;
-  vector<VectorXd> ground_truth;
-
-  VectorXd gt_values(4);
-  gt_values(0) = x_gt;
-  gt_values(1) = y_gt;
-  gt_values(2) = vx_gt;
-  gt_values(3) = vy_gt;
-  ground_truth.push_back(gt_values);
-
-  // Call ProcessMeasurement(meas_package) for Kalman filter
-  fusionEKF.ProcessMeasurement(meas_package);
-
-  // Push the current estimated x,y positon from the Kalman filter's
-  //   state vector
-
-  VectorXd estimate(4);
-
-  double p_x = fusionEKF.ekf_.x_(0);
-  double p_y = fusionEKF.ekf_.x_(1);
-  double v1 = fusionEKF.ekf_.x_(2);
-  double v2 = fusionEKF.ekf_.x_(3);
-
-  estimate(0) = p_x;
-  estimate(1) = p_y;
-  estimate(2) = v1;
-  estimate(3) = v2;
-
-  estimations.push_back(estimate);
-
-  VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
-
-  nlohmann::json msgJson;
-  msgJson["estimate_x"] = p_x;
-  msgJson["estimate_y"] = p_y;
-  msgJson["rmse_x"] = RMSE(0);
-  msgJson["rmse_y"] = RMSE(1);
-  msgJson["rmse_vx"] = RMSE(2);
-  msgJson["rmse_vy"] = RMSE(3);
-  auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
-  // std::cout << msg << std::endl;
-  network->SendMessageToSimulator(msg);
+  iss >> meas_package.timestamp_;
+  iss >> meas_package.x_ground_truth_;
+  iss >> meas_package.y_ground_truth_;
+  iss >> meas_package.vx_ground_truth_;
+  iss >> meas_package.vy_ground_truth_;
 }
 
 string Controller::has_data(string msg_str) {

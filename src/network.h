@@ -1,7 +1,7 @@
 /*
 ================================================================================================================================
 
- networking module
+ network module
 
 ================================================================================================================================
 */
@@ -11,9 +11,7 @@
 #define NETWORK_H
 
 #include <uWS/Hub.h>
-#include <vector>
 #include <string>
-#include <cmath>
 #include <iostream>
 #include "controller.h"
 
@@ -21,10 +19,10 @@ namespace ekf {
 
 class Controller;
 
-// handles simulator and prolog networking via websockets
+// handles simulator and prolog network via websockets
 class Network {
  public:
-  // sets up the networking component
+  // sets up the network component
   Network(Controller &controller);
 
   virtual ~Network();

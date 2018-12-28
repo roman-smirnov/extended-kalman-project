@@ -1,7 +1,7 @@
 /*
 ================================================================================================================================
 
- implementation of networking module
+ implementation of network module
 
 ================================================================================================================================
 */
@@ -10,7 +10,6 @@
 
 namespace ekf {
 
-using std::vector;
 using std::cout;
 using std::cerr;
 using std::string;
@@ -32,8 +31,7 @@ void Network::SendMessageToSimulator(string &msg) {
 
 void Network::InitCallbacks() {
   websocket_hub.onMessage([this](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
-    cout << "MESSAGE RECEIVED FROM SIMULATOR CLIENT" << endl;
-    cout<<data<<endl;§
+//    cout << "MESSAGE RECEIVED FROM SIMULATOR CLIENT" << endl;
     this->controller.HandleSimulatorMessage(data, length);
   });
 
