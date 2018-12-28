@@ -14,13 +14,10 @@
 #include <json.hpp>
 #include <math.h>
 #include <iostream>
-#include "kalman/FusionEKF.h"
+#include "kalman/fusion_ekf.h"
 #include "kalman/tools.h"
-#include "network.h"
 
-namespace ekf {
-
-class Network;
+namespace kalman {
 
 class Controller {
  public:
@@ -28,15 +25,13 @@ class Controller {
   virtual ~Controller();
 
   // parse and handle messages received from simulator
-  void HandleSimulatorMessage(char *data, size_t length);
+  void HandleSimulatorMessage(const char *data, size_t length);
 
-  // set the gateways to handle network
-  void SetNetworkGateway(Network *network);
+  // register callback function by way of which send messages to simulator
+  void RegisterSendMessageHandler(std::function<void(const std::string&)> SendMessageHandler);
 
  private:
 
-  // receive requests and send messages
-  Network * network = nullptr;
   MeasurementPackage meas_package;
   FusionEKF fusionEKF;
   std::vector<Eigen::VectorXd> estimations;
@@ -49,7 +44,10 @@ class Controller {
   void update_meas_pkg(const std::string &sensor_measurement);
   void add_ground_truth();
   void add_estimate();
-  std::string GetOutputMessageString(const Eigen::VectorXd rmse);
+  std::string GetOutputMessageString(Eigen::VectorXd rmse);
+
+  // callback function to send messages to the simulator
+  std::function<void(const std::string&)> SendMessageToSimulator = nullptr;
 };
 
 }

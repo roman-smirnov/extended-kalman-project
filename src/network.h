@@ -13,28 +13,25 @@
 #include <uWS/Hub.h>
 #include <string>
 #include <iostream>
-#include "controller.h"
 
-namespace ekf {
-
-class Controller;
+namespace kalman {
 
 // handles simulator and prolog network via websockets
 class Network {
  public:
   // sets up the network component
-  Network(Controller &controller);
+  Network();
 
   virtual ~Network();
 
   // start the server, begin handling requests and responses, etc
   void StartServer();
 
-  // set the controller to handle request callbacks
-//  void SetController(const Controller &controller);
+  // set controller function to handle incoming messages
+  void RegisterReceiveMessageHandler(const std::function<void(char*, size_t)> HandleSimulatorMessage);
 
   // send a message to the simulator
-  void SendMessageToSimulator(std::string &msg);
+  void SendMessageToSimulator(std::string msg);
 
  private:
 
@@ -44,8 +41,9 @@ class Network {
   // simulator client localhost port
   static constexpr int SIMULATOR_CLIENT_PORT = 4567;
 
-  // management and logic object, processes incoming messages and issues output commands.
-  Controller &controller;
+  // callback function to handle messages received from simulator
+
+  std::function<void(char *data, size_t length)> HandleSimulatorMessage = nullptr;
 
   // websocket handling and managment
   uWS::Hub websocket_hub;

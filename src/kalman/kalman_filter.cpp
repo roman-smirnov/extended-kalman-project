@@ -1,3 +1,4 @@
+#include <iostream>
 #include "kalman_filter.h"
 
 using Eigen::MatrixXd;
@@ -42,7 +43,7 @@ void KalmanFilter::Update(const VectorXd &z) {
   //new estimate
   x_ = x_ + (K * y);
   P_ = (I_ - K * H_) * P_;
-
+  std::cout<<"hello world"<<std::endl;
 }
 
 VectorXd CartesianToPolar(const VectorXd &state) {
@@ -63,7 +64,6 @@ VectorXd CartesianToPolar(const VectorXd &state) {
 }
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
-
 
   VectorXd z_pred = CartesianToPolar(x_);
   VectorXd y = z - z_pred;

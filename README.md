@@ -1,35 +1,35 @@
 #  Extended Kalman Filter Project
 
-
+## NOTE: SAY NO TO TEMPLATE META PROGRAMMING
 
 ## TODO
 
-1. ~~compact and optimize~~
-2. ~~check why not working~~
-3. ~~break down controller~~ 
-4. ~~third party dir~~
-5. impl listener pattern for network/controller interaction
-6. precompiled
-7. system model
-8. measurement models - separate laser and radar measurement models
-9. pimpl
-10. go over https://github.com/mherb/kalman
-11. polymorphism and inheritance
-12. rename matrices and vectors to meaningful names
-13. code documentation
-14. write a project outline with overview of implementation steps
-15. joseph form vs optimal kalman (standard form) ?
-16. write project dir tree +  description of each
-17. write expected input, output format and examples
-18. write out relevant rubric metrics checklist
-19. ~~Create reusable websocket module~~
-20. make documentation, exploration, demo pipeline, viz notebook
-21. results analysis
-22. figure out interactive plots
-23. make viz gifs
-24. record intro video
-25. put back install scripts and license
-26. code review stack exchange
+1. const class functions
+2. ~~change namespace to kalman~~
+3. change the params of receiveMessage to string
+4. move private/protected class members to impl classs
+5. make all headers self contained
+6. tools should not be a class - best practice to group functions?
+7. pimpl
+8. precompiled header
+9. make sure all files are in kalman namespace 
+10. make an analytics class to record and generate result metrics
+11. separate measurement_package into laser,radar models
+12. separate kalman_filter into separate linear and extended process models
+13. investigate std::function and std::bind
+14. implement better/lighter listener 
+15. rename matrices and vectors to meaningful names
+16. matrices/vectors typedefs
+17. code documentation
+18. write a project outline with overview of implementation steps
+19. joseph form vs optimal kalman (standard form) ?
+20. write project dir tree +  description of each
+21. write expected input, output format and examples
+22. write out relevant rubric metrics checklist
+23. make documentation notebook
+24. results analysis
+25. make viz gifs
+26. put back install scripts and license
 
 
 
@@ -170,6 +170,7 @@ R	1.014892e+00	5.543292e-01	4.892807e+00	1477010443050000	8.599968e-01	6.000449e
 ### Reference Projects
 
 * https://github.com/mherb/kalman
+* https://github.com/igormiktor/arduino-EventManager/blob/master/EventManager/EventManager.h
 * https://github.com/ndrplz/self-driving-car
 * https://github.com/JunshengFu/tracking-with-Extended-Kalman-Filter
 * https://github.com/mithi/fusion-ekf

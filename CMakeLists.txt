@@ -5,9 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 
-set(SOURCES src/main.cpp src/kalman/tools.cpp src/kalman/FusionEKF.cpp src/kalman/kalman_filter.cpp
-        src/controller.cpp src/kalman/tools.h src/kalman/FusionEKF.h src/kalman/kalman_filter.h
-        src/controller.h src/network.cpp src/network.h)
+set(SOURCES src/main.cpp src/kalman/tools.cpp src/kalman/fusion_ekf.cpp src/kalman/kalman_filter.cpp
+        src/controller.cpp src/kalman/tools.h src/kalman/fusion_ekf.h src/kalman/kalman_filter.h
+        src/controller.h src/network.cpp src/network.h src/evaluation.cpp src/evaluation.h)
 
 set(LIBRARIES z ssl uv uWS)
 

@@ -10,7 +10,7 @@
 
 #include "controller.h"
 
-namespace ekf {
+namespace kalman {
 
 using std::string;
 using std::vector;
@@ -24,12 +24,12 @@ Controller::Controller() = default;
 Controller::~Controller() = default;
 
 
-void Controller::SetNetworkGateway(Network *network) {
-  this->network = network;
+void Controller::RegisterSendMessageHandler(const std::function<void(const std::string&)> SendMessageHandler) {
+  this->SendMessageToSimulator = SendMessageHandler;
 }
 
-void Controller::HandleSimulatorMessage(char *data, size_t length) {
-  if (network == nullptr) {
+void Controller::HandleSimulatorMessage(const char *data, size_t length) {
+  if (SendMessageToSimulator == nullptr) {
     return;
   }
 
@@ -41,7 +41,9 @@ void Controller::HandleSimulatorMessage(char *data, size_t length) {
 
   if (msg_str.empty()) {
     string msg = "42[\"manual\",{}]"; // Manual driving
-    network->SendMessageToSimulator(msg);
+    if (SendMessageToSimulator != nullptr) {
+      this->SendMessageToSimulator(msg);
+    }
     return;
   }
 
@@ -58,17 +60,19 @@ void Controller::HandleSimulatorMessage(char *data, size_t length) {
 
   add_ground_truth();
 
-  // Call ProcessMeasurement(meas_package) for Kalman filter
+  // process measurement via kalman filter
   fusionEKF.ProcessMeasurement(meas_package);
 
-  // Push the current estimated x,y positon from the Kalman filter's state vector
+  // add kalman filter estimate to estimations
   add_estimate();
 
   VectorXd rmse = tools.CalculateRMSE(estimations, ground_truth);
 
   std::string msg = GetOutputMessageString(rmse);
 
-  network->SendMessageToSimulator(msg);
+  if (SendMessageToSimulator != nullptr) {
+    this->SendMessageToSimulator(msg);
+  }
 }
 
 
@@ -144,6 +148,7 @@ string Controller::has_data(string msg_str) {
   }
   return "";
 }
+
 
 }
 
