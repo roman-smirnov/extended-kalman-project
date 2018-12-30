@@ -58,13 +58,13 @@ void Controller::HandleSimulatorMessage(const char *data, size_t length) {
 
   update_meas_pkg(sensor_measurement);
 
-  add_ground_truth();
+//  add_ground_truth();
 
   // process measurement via kalman filter
   fusionEKF.ProcessMeasurement(meas_package);
 
   // add kalman filter estimate to estimations
-  add_estimate();
+//  add_estimate();
 
   VectorXd rmse = tools.CalculateRMSE(estimations, ground_truth);
 
@@ -87,24 +87,24 @@ std::string Controller::GetOutputMessageString(const Eigen::VectorXd rmse){
   auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
   return msg;
 }
+//
+//void Controller::add_estimate(){
+//  VectorXd estimate(4);
+//  estimate(0) = fusionEKF.ekf_.x_(0);
+//  estimate(1) = fusionEKF.ekf_.x_(1);
+//  estimate(2) = fusionEKF.ekf_.x_(2);
+//  estimate(3) = fusionEKF.ekf_.x_(3);
+//  estimations.push_back(estimate);
+//}
 
-void Controller::add_estimate(){
-  VectorXd estimate(4);
-  estimate(0) = fusionEKF.ekf_.x_(0);
-  estimate(1) = fusionEKF.ekf_.x_(1);
-  estimate(2) = fusionEKF.ekf_.x_(2);
-  estimate(3) = fusionEKF.ekf_.x_(3);
-  estimations.push_back(estimate);
-}
-
-void Controller::add_ground_truth(){
-  VectorXd gt_values(4);
-  gt_values(0) = meas_package.x_ground_truth_;
-  gt_values(1) = meas_package.y_ground_truth_;
-  gt_values(2) = meas_package.vx_ground_truth_;
-  gt_values(3) = meas_package.vy_ground_truth_;
-  ground_truth.push_back(gt_values);
-}
+//void Controller::add_ground_truth(){
+//  VectorXd gt_values(4);
+//  gt_values(0) = meas_package.x_ground_truth_;
+//  gt_values(1) = meas_package.y_ground_truth_;
+//  gt_values(2) = meas_package.vx_ground_truth_;
+//  gt_values(3) = meas_package.vy_ground_truth_;
+//  true_measurements.push_back(gt_values);
+//}
 
 void Controller::update_meas_pkg(const string &sensor_measurement){
   std::istringstream iss(sensor_measurement);

@@ -1,7 +1,7 @@
 #ifndef KALMAN_FILTER_H_
 #define KALMAN_FILTER_H_
 
-#include <Eigen/Dense>
+#include "../precompiled.h"
 
 class KalmanFilter {
  public:

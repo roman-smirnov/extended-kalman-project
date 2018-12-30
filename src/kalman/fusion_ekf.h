@@ -1,10 +1,7 @@
 #ifndef FusionEKF_H_
 #define FusionEKF_H_
 
-#include <fstream>
-#include <string>
-#include <vector>
-#include <Eigen/Dense>
+#include "../precompiled.h"
 #include "kalman_filter.h"
 #include "measurement_package.h"
 #include "tools.h"

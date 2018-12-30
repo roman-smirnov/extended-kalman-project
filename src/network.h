@@ -11,8 +11,7 @@
 #define NETWORK_H
 
 #include <uWS/Hub.h>
-#include <string>
-#include <iostream>
+#include "precompiled.h"
 
 namespace kalman {
 

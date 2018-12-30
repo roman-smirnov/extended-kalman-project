@@ -1,6 +1,5 @@
+#include "../precompiled.h"
 #include "tools.h"
-#include <iostream>
-#include <math.h>
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;

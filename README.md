@@ -1,35 +1,27 @@
 #  Extended Kalman Filter Project
 
-## NOTE: SAY NO TO TEMPLATE META PROGRAMMING
+
 
 ## TODO
 
-1. const class functions
-2. ~~change namespace to kalman~~
-3. change the params of receiveMessage to string
-4. move private/protected class members to impl classs
-5. make all headers self contained
-6. tools should not be a class - best practice to group functions?
-7. pimpl
-8. precompiled header
-9. make sure all files are in kalman namespace 
-10. make an analytics class to record and generate result metrics
-11. separate measurement_package into laser,radar models
-12. separate kalman_filter into separate linear and extended process models
-13. investigate std::function and std::bind
-14. implement better/lighter listener 
-15. rename matrices and vectors to meaningful names
-16. matrices/vectors typedefs
-17. code documentation
-18. write a project outline with overview of implementation steps
-19. joseph form vs optimal kalman (standard form) ?
-20. write project dir tree +  description of each
-21. write expected input, output format and examples
-22. write out relevant rubric metrics checklist
-23. make documentation notebook
-24. results analysis
-25. make viz gifs
-26. put back install scripts and license
+1. remove precompiled
+2. make sure all files are in kalman namespace 
+3. make an analytics class to record and generate result metrics
+4. separate measurement_package into laser,radar models
+5. separate kalman_filter into separate linear and extended process models
+6. rename matrices and vectors to meaningful names
+7. matrices/vectors typedefs
+8. code documentation
+9. write a project outline with overview of implementation steps
+10. write project dir tree +  description of each
+11. write expected input, output format and examples
+12. write out relevant rubric metrics checklist
+13. make documentation notebook
+14. results analysis
+15. make viz gifs
+16. put back install scripts and license, make sure it will compile 
+17. make a standard base cmake project template (cmakelists.txt, gitignore, etc).
+18. 
 
 
 
